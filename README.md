@@ -1,4 +1,6 @@
-For Q1, command geoiplookup is required. You can install it by
+Q1 
+
+command geoiplookup is required. You can install it by
 
 Debian/Ubuntu
 ```
@@ -9,13 +11,19 @@ CentOS/RHEL
 yum install GeoIP GeoIP-data
 ```
 
-For Q2, aws cli is required.Installation instruction can be found on 
+Q2
+
+aws cli is required.Installation instruction can be found on 
 
 https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
 
 You can configure IAM role on the EC2 instance to make this more simple
 
-For Q3, two env MONGODB and BASEURL is needed to reflect the mongodb connection string and Domain name of the short url
+Q3
+![architecture](https://user-images.githubusercontent.com/40196992/97959171-ba975f00-1de9-11eb-967a-55787158fb58.png)
+
+
+two env MONGODB and BASEURL is needed to reflect the mongodb connection string and Domain name of the short url
 ```
 docker build -t shorturl .
 docker run -p 5000:5000 -e MONGODB='mongodb+srv://user:abcd1234@demo.vwlvn.mongodb.net/shorturl?retryWrites=true&w=majority'  -e BASEURL='https://shorturl.org' shorturl
@@ -30,7 +38,10 @@ configmaps are used instead of Secrets easy config read. Load Balance EC2 runnin
 
 For the database part, it will better to use AWS DynamoDB/Documentdb or Mongodb altas. I have created a free tier Mongodb altas for demo. Everything can be also ran in local using docker.
 
-For the cloudfront part, I normally use terraform to create the AWS resource. Some personal account information is masked out.
+For CDN(Cloudfront) part, I used terraform as the IaC. It can cache the response properly with some sample test request. Since the shorturl will not be deleted, so the GET request will always be cached and will not genearate much load to the service.
+
+![cloudfron](https://user-images.githubusercontent.com/40196992/98055038-7f437180-1e77-11eb-8bf7-9d99c93a04e6.png)
+
 Command
 POST newurl
 ```
@@ -48,5 +59,5 @@ Limitiation
 
 3. The demo mongodb altas is free tier and relative small. I have not test with very high load.
 
-4. The system can be attack by doing the POST for the same longurl and the application need to check in the database every time.
+4. The system can be attack by doing the POST for the same longurl and the application need to check the database record every time.
 
