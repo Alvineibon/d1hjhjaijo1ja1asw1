@@ -6,4 +6,4 @@ metadata:
   namespace: default
 data:
   MONGODB: mongodb+srv://user:abcd1234@demo.vwlvn.mongodb.net/shorturl?retryWrites=true&w=majority
-  BASEURL: https://shorturl.org.com
+  BASEURL: https://shorturl.org
